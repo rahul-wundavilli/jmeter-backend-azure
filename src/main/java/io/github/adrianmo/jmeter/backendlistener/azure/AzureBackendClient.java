@@ -218,7 +218,7 @@ public class AzureBackendClient extends AbstractBackendListenerClient {
 
         Date timestamp = new Date(sr.getTimeStamp());
         Duration duration = new Duration(sr.getTime());
-        RequestTelemetry req = new RequestTelemetry(name, timestamp, duration, sr.getResponseCode(),
+        RequestTelemetry req = new RequestTelemetry(sr.getSampleLabel(), timestamp, duration, sr.getResponseCode(),
                 sr.isSuccessful());
         req.getContext().getOperation().setName(name);
 
