@@ -263,7 +263,7 @@ public class AzureBackendClient extends AbstractBackendListenerClient {
             if (sr.getAssertionResults().length > 0)
             {
                 for (AssertionResult assertdata : sr.getAssertionResults()){
-                    assertionData = assertionData.concat(assertdata.getName() + "====" + assertdata.getFailureMessage() + "\n");
+                    assertionData = assertionData.concat(assertdata.getName() + " ====> " + assertdata.getFailureMessage() + "\n");
                 }
             }
             properties.put("assertionData", assertionData);
