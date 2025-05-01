@@ -7,6 +7,7 @@ import com.microsoft.applicationinsights.internal.util.MapUtil;
 import com.microsoft.applicationinsights.telemetry.Duration;
 import com.microsoft.applicationinsights.telemetry.RequestTelemetry;
 
+import org.apache.jmeter.assertions.AssertionResult;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.threads.JMeterContextService;
@@ -254,6 +255,18 @@ public class AzureBackendClient extends AbstractBackendListenerClient {
                 responseData = sr.getResponseDataAsString();
             }
             properties.put("ResponseData", responseData);
+        }
+
+        if (logResponseData == DataLoggingOption.Always ||
+                (logResponseData == DataLoggingOption.OnFailure && !sr.isSuccessful())) {
+            String assertionData = "";
+            if (sr.getAssertionResults().length > 0)
+            {
+                for (AssertionResult assertdata : sr.getAssertionResults()){
+                    assertionData = assertionData.concat(assertdata.getName() + "====" + assertdata.getFailureMessage() + "\n");
+                }
+            }
+            properties.put("assertionData", assertionData);
         }
 
         MapUtil.copy(properties, req.getProperties());
